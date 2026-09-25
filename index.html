@@ -1,26 +1,389 @@
-<html>
+<html lang="en">
   <head>
-    <title>index</title>
+<meta charset="UTF-8">
+
+<meta 
+name="viewport" 
+content="width=device-width,
+         height=device-height, 
+         initial-scale=1.0">
+
+    <title></title>
     <style>
-   *{margin:0px;padding:0px;box-sizing:border-box;}
-   body{
-    background-color:rgb(0,50,40);
-    color:white;
-   }
-      
+*{margin:0px;padding:0px;box-sizing:border-box;}
+    body{
+      background-color: rgb(0,0,0);
+      color: lime;
+} 
+h2{
+  user-select: none ;
+  position: absolute ;
+  left: 50%;
+  top: 0px ;
+  transform: translate(-50%,0%);
+  animation:colores 7s 1s linear infinite;
+}
+h1{
+  user-select: none ;
+  position: absolute ;/*static, relative, absolute, fixed, sticky, initial, inherit.*/
+  left: 50%;
+  top: 50px;
+  transform: translate(-50%,0%);
+}
+h1, h2{
+  z-index: 10 ;
+}
+@keyframes colores{
+  from{
+   filter: hue-rotate(0deg);
+  }to{
+    filter: hue-rotate(360deg);
+  }
+}
+#container{
+  position: absolute ;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  /*display: grid;
+  place-items: center ;*/
+  border: 2px solid lime ;
+}
+#swipe{
+  position: absolute ;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid blue ;
+}
+/*@media screen and (orientation: landscape) {
+  #container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  #swipe{
+  position: absolute ;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid blue ;
+}
+}
+@media screen and (orientation: portrait ) {
+  #container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  #swipe{
+  position: absolute ;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid blue ;
+}
+}*/
     </style>
   </head>
+  
   <body>
-<h1>links</h1>
+    
+    <h2 hidden>html5</h2>
+    <h1 hidden>leonardosotelo89</h1>
+    
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+
+<div id="container"></div>
+
+
+<div id="swipe"></div>
+
+
+<script>
+const $ = (id)=>document.getElementById(id)
+const container = $('container')
+const swipe = document.querySelector('#swipe')
+const video = document.createElement('video')
+video.style.width = innerWidth - 4 +"px";
+video.style.height = innerHeight - 4 +"px";
+video.width = innerWidth 
+video.height = innerHeight 
+video.playsInline = true
+video.objectFit = "fill" 
+//fill, cover, contain,scale-down ,none
+//video.controls = true
+//video.loop = true
+container.append(video)
+console.log(video,container); 
+
+let initialy = null
+let directiony = null
+let playing = false
+let videoindex = 0
+let current = null
+
+
+const videosPrueba = [
+    {
+        nombre: "MDN Rabbit",
+        url: "https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4"
+    },
+    {
+        nombre: "W3Schools BBB",
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
+    },
+    {
+        nombre: "Big Buck Bunny 720p",
+        url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
+    },
+    {
+        nombre: "Sintel 720p",
+        url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4"
+    },
+    {
+        nombre: "chunghwarcgua",
+        url: "https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+    }
+];
+
+
+video.src = videosPrueba[videoindex].url
 
 
 
 
-    <script>
+//pointer event
+//deactivate touch events to capture pointer events properly 
+swipe.style.touchAction = "none";
+
+
+swipe.onpointerdown = e => {
+  swipe.setPointerCapture(e.pointerId);
+  initialy = e.clientY;
+  playing = !playing 
+  
+}
+
+
+swipe.onpointermove = function (e){
+  const currenty = e.clientY
+
+  if(initialy < currenty){
+    directiony = "down" 
+    playing = true 
+  }
+  if(initialy > currenty){
+    directiony = "up" 
+    playing = true 
+  }
+}
+
+
+swipe.onpointerup = e => {
+  swipe.releasePointerCapture(e.pointerId);
+  const vlength = videosPrueba.length
+  
+  if(directiony == "up"){
+  videoindex = (videoindex + 1) % vlength
+  video.src = videosPrueba[videoindex].url
+  current = 0
+  }
+  if(directiony == "down"){
+  videoindex = (videoindex - 1 + vlength) % vlength
+  video.src = videosPrueba[videoindex].url
+  current = 0
+  }
+  directiony = "stay"
+  
+  if(playing){
+    video.currentTime = current
+    video.play()
+  }
+  if(!playing){
+    video.pause()
+  }
+}
+
+video.onended = ()=>{
+    video.currentTime = 0
+    video.play()
+}
+
+video.ontimeupdate = ()=>{
+  current = video.currentTime 
+ // console.log(current); 
+}
+
+setInterval(()=>{
+  swipe.innerHTML = directiony +"/"+playing+"/"+video.src 
+},50)
+
+/*
+function resizevideo(){
+  const landscape = window.innerWidth > window.innerHeight;/
+//video.style.position = 'absolute'
+//video.style.left = '0px'
+//video.style.top = '0px'
+//video.style.transform = 'translate(0%,0%)'
+//video.style.border = '2px solid lime'
+//video.style.width = 'calc(100% - 4px)'
+//video.style.height = 'calc(100% - 4px)' 
+
+if (landscape) {
+    container.style.position = 'absolute'
+    container.style.left = '0px'
+    container.style.top = '0px'
+    container.style.border = '2px solid lime'
+    container.style.width = "100%"
+    container.style.height = "100%"
+    container.style.display = "grid"
+    container.style.placeItems = "center"
+    
+    //video.style.position = 'absolute'
+    //video.style.left = '50%'
+    //video.style.top = '0px'
+    //video.style.transform = 'translate(-50%,0%)'
+    //video.style.border = '2px solid lime'
+    //video.style.width = innerWidth /3.25 - 4 +"px";
+    //video.style.height = innerHeight - 4 +"px";
+    //video.width = innerWidth / 3.25 - 4;
+    //video.height = innerHeight - 4;
+    video.style.objectFit = "contain";
+    console.log('LANDSCAPE');
+    
+    swipe.style.position = 'absolute'
+    swipe.style.left = '0px'
+    swipe.style.top = '0px'
+    swipe.style.border = '2px solid blue'
+    swipe.style.width = innerWidth +"px"
+    swipe.style.height = innerHeight +"px"
+  } 
+  if(!landscape){
+    container.style.position = 'absolute'
+    container.style.left = '0px'
+    container.style.top = '0px'
+    container.style.border = '2px solid lime'
+    container.style.width = "100%"
+    container.style.height = "100%"
+    container.style.display = "grid"
+    container.style.placeItems = "center"
+    
+   // video.style.position = 'absolute'
+   // video.style.left = '0px'
+   // video.style.top = '0px'
+   // video.style.transform = 'translate(0%,0%)'
+    video.style.border = '2px solid lime'
+    video.style.width = "100%"
+    video.style.height = "100%"
+   // video.width = "100%"
+   // video.height = "100%"
+    video.style.objectFit = "contain";
+    console.log('PORTRAIT');
+    
+    swipe.style.position = 'absolute'
+    swipe.style.left = '0px'
+    swipe.style.top = '0px'
+    swipe.style.border = '2px solid blue'
+    swipe.style.width = innerWidth +"px"
+    swipe.style.height = innerHeight +"px"
+  }
+}*/
+
+
+function resizevideo(){
+    const landscape = window.innerWidth > window.innerHeight;
+    const cbounds = container.getBoundingClientRect()
+    const rects = container.getClientRects()
+    console.log(cbounds,rects); 
+    
+    container.style.left = "0px";
+    container.style.top = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.border = "2px solid lime";
+    video.style.objectFit = "contain";
+    //contain, cover, fill
+   
+
+    swipe.style.position = "absolute";
+    swipe.style.left = "0px";
+    swipe.style.top = "0px";
+    swipe.style.width = innerWidth + "px";
+    swipe.style.height = innerHeight + "px";
+
+    if(landscape){
+container.style.left = "0px";
+    container.style.top = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.border = "2px solid lime";
+    video.style.objectFit = "contain";
+    //contain, cover, fill
+    
+        /*video.style.left = "50%";
+        video.style.top = "0px";
+        video.style.transform = "translate(-50%,0%)";
+*/
+       video.style.width = (innerWidth / 3.25 - 4) + "px";
+       video.style.height = (innerHeight - 4) + "px";
+       video.width = cbounds.width
+       video.height = cbounds.height 
+        console.log("LANDSCAPE");
+        
+
+    }else{
+    container.style.left = "0px";
+    container.style.top = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.border = "2px solid lime";
+    video.style.objectFit = "contain";
+    //contain, cover, fill
+    
+
+        /*video.style.left = "0px";
+        video.style.top = "0px";
+        video.style.transform = "translate(0%,0%)";*/
+
+      /*video.style.width = (innerWidth - 4) + "px";
+      video.style.height = (innerHeight - 4) + "px";*/
+      video.style.width = "100%";
+      video.style.height = "100%";
+      video.width = cbounds.width
+      video.height = cbounds.height
+        console.log("PORTRAIT");
+    }
+   // window.location.reload()
+}
+resizevideo()
 
 
 
-      
-    </script>
-  </body>
-</html>
+window.addEventListener('resize', resizevideo);
+</script>
+<footer>            <!--              --></footer>
+</body>
+</html> 
