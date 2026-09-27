@@ -130,7 +130,7 @@ console.log(video,container);
 let initialy = null
 let directiony = null
 let playing = false
-let videoindex = 0
+let videoindex = Number(localStorage.getItem("videoindex")) || 0;
 let current = null
 
 
@@ -195,13 +195,20 @@ swipe.onpointerup = e => {
   const vlength = videosPrueba.length
   
   if(directiony == "up"){
-  videoindex = (videoindex + 1) % vlength
-  video.src = videosPrueba[videoindex].url
+videoindex = (videoindex + 1) % vlength;
+
+localStorage.setItem("videoindex", videoindex);
+
+video.src = videosPrueba[videoindex].url;
+  
   current = 0
   }
   if(directiony == "down"){
-  videoindex = (videoindex - 1 + vlength) % vlength
-  video.src = videosPrueba[videoindex].url
+  videoindex = (videoindex - 1 + vlength) % vlength;
+
+localStorage.setItem("videoindex", videoindex);
+
+video.src = videosPrueba[videoindex].url;
   current = 0
   }
   directiony = "stay"
