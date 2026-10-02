@@ -305,6 +305,30 @@ function resizevideo(){
 
 window.addEventListener("resize", resizevideo);
 
+if(landscape){
+
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.width = (innerWidth / 3.25 - 4) + "px";
+    video.style.height = (innerHeight - 4) + "px";
+
+    video.width = innerWidth / 3.25 - 4;
+    video.height = innerHeight - 4;
+
+}else{
+
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.width = "100%";
+    video.style.height = "100%";
+
+    video.width = container.clientWidth;
+    video.height = container.clientHeight;
+}
+
 
 
 
