@@ -236,201 +236,6 @@ setInterval(()=>{
   swipe.innerHTML = directiony +"/"+playing+"/"+video.src 
 },50)
 
-/*
-function resizevideo(){
-  const landscape = window.innerWidth > window.innerHeight;/
-//video.style.position = 'absolute'
-//video.style.left = '0px'
-//video.style.top = '0px'
-//video.style.transform = 'translate(0%,0%)'
-//video.style.border = '2px solid lime'
-//video.style.width = 'calc(100% - 4px)'
-//video.style.height = 'calc(100% - 4px)' 
-
-if (landscape) {
-    container.style.position = 'absolute'
-    container.style.left = '0px'
-    container.style.top = '0px'
-    container.style.border = '2px solid lime'
-    container.style.width = "100%"
-    container.style.height = "100%"
-    container.style.display = "grid"
-    container.style.placeItems = "center"
-    
-    //video.style.position = 'absolute'
-    //video.style.left = '50%'
-    //video.style.top = '0px'
-    //video.style.transform = 'translate(-50%,0%)'
-    //video.style.border = '2px solid lime'
-    //video.style.width = innerWidth /3.25 - 4 +"px";
-    //video.style.height = innerHeight - 4 +"px";
-    //video.width = innerWidth / 3.25 - 4;
-    //video.height = innerHeight - 4;
-    video.style.objectFit = "contain";
-    console.log('LANDSCAPE');
-    
-    swipe.style.position = 'absolute'
-    swipe.style.left = '0px'
-    swipe.style.top = '0px'
-    swipe.style.border = '2px solid blue'
-    swipe.style.width = innerWidth +"px"
-    swipe.style.height = innerHeight +"px"
-  } 
-  if(!landscape){
-    container.style.position = 'absolute'
-    container.style.left = '0px'
-    container.style.top = '0px'
-    container.style.border = '2px solid lime'
-    container.style.width = "100%"
-    container.style.height = "100%"
-    container.style.display = "grid"
-    container.style.placeItems = "center"
-    
-   // video.style.position = 'absolute'
-   // video.style.left = '0px'
-   // video.style.top = '0px'
-   // video.style.transform = 'translate(0%,0%)'
-    video.style.border = '2px solid lime'
-    video.style.width = "100%"
-    video.style.height = "100%"
-   // video.width = "100%"
-   // video.height = "100%"
-    video.style.objectFit = "contain";
-    console.log('PORTRAIT');
-    
-    swipe.style.position = 'absolute'
-    swipe.style.left = '0px'
-    swipe.style.top = '0px'
-    swipe.style.border = '2px solid blue'
-    swipe.style.width = innerWidth +"px"
-    swipe.style.height = innerHeight +"px"
-  }
-}*/
-
-
-function resizevideo(){
-    const landscape = window.innerWidth > window.innerHeight;
-    const cbounds = container.getBoundingClientRect()
-    const rects = container.getClientRects()
-    console.log(cbounds,rects); 
-    
-    container.style.left = "0px";
-    container.style.top = "0px";
-    container.style.width = "100%";
-    container.style.height = "100%";
-    container.style.display = "grid";
-    container.style.placeItems = "center";
-
-    video.style.position = "relative";
-    video.style.border = "2px solid lime";
-    video.style.objectFit = "contain";
-    //contain, cover, fill
-   
-
-    swipe.style.position = "absolute";
-    swipe.style.left = "0px";
-    swipe.style.top = "0px";
-    swipe.style.width = innerWidth + "px";
-    swipe.style.height = innerHeight + "px";
-
-    if(landscape){
-container.style.left = "0px";
-    container.style.top = "0px";
-    container.style.width = "100%";
-    container.style.height = "100%";
-    container.style.display = "grid";
-    container.style.placeItems = "center";
-
-    video.style.position = "relative";
-    video.style.border = "2px solid lime";
-    video.style.objectFit = "contain";
-    //contain, cover, fill
-    
-        /*video.style.left = "50%";
-        video.style.top = "0px";
-        video.style.transform = "translate(-50%,0%)";
-*/
-       video.style.width = (window.innerWidth / 3.25 - 4) + "px";
-       video.style.height = (window.innerHeight - 4) + "px";
-       video.width = cbounds.width
-       video.height = cbounds.height 
-        console.log("LANDSCAPE");
-        
-
-    }else{
-    container.style.left = "0px";
-    container.style.top = "0px";
-    container.style.width = "100%";
-    container.style.height = "100%";
-    container.style.display = "grid";
-    container.style.placeItems = "center";
-
-    video.style.position = "relative";
-    video.style.border = "2px solid lime";
-    video.style.objectFit = "contain";
-    //contain, cover, fill
-    
-
-        /*video.style.left = "0px";
-        video.style.top = "0px";
-        video.style.transform = "translate(0%,0%)";*/
-
-      /*video.style.width = (nnerWidth - 4) + "px";
-      video.style.height = (innerHeight - 4) + "px";*/
-      video.style.width = "100%";
-      video.style.height = "100%";
-      video.width = cbounds.width
-      video.height = cbounds.height
-        console.log("PORTRAIT");
-    }
-    window.location.reload()
-}
-//resizevideo()
-
-function resizevideo(){
-
-    const landscape = innerWidth > innerHeight;
-
-    container.style.left = "0px";
-    container.style.top = "0px";
-    container.style.width = "100%";
-    container.style.height = "100%";
-    container.style.display = "grid";
-    container.style.placeItems = "center";
-
-    const cbounds = container.getBoundingClientRect();
-
-    video.style.position = "relative";
-    video.style.border = "2px solid lime";
-    video.style.objectFit = "contain";
-
-    swipe.style.position = "absolute";
-    swipe.style.left = "0px";
-    swipe.style.top = "0px";
-    swipe.style.width = innerWidth + "px";
-    swipe.style.height = innerHeight + "px";
-
-    if(landscape){
-
-        video.style.width = (innerWidth / 3.25 - 4) + "px";
-        video.style.height = (innerHeight - 4) + "px";
-
-        video.width = innerWidth / 3.25 - 4;
-        video.height = innerHeight - 4;
-
-        console.log("LANDSCAPE");
-
-    }else{
-
-        video.style.width = "100%";
-        video.style.height = "100%";
-
-        video.width = cbounds.width;
-        video.height = cbounds.height;
-
-        console.log("PORTRAIT");
-    }
-}
 
 const orientation = localStorage.getItem("orientation");
 
@@ -444,10 +249,17 @@ if(orientation === "landscape"){
     container.style.display = "grid";
     container.style.placeItems = "center";
 
-    video.style.position = "relative";
-    video.style.width = (innerWidth / 3.25 - 4) + "px";
-    video.style.height = (innerHeight - 4) + "px";
-    video.style.objectFit = "contain";
+    
+
+video.style.position = "relative";
+video.style.width = (innerWidth / 3.25 - 4) + "px";
+video.style.height = (innerHeight - 4) + "px";
+
+video.width = innerWidth / 3.25 - 4;
+video.height = innerHeight - 4;
+
+
+
 
     swipe.style.position = "absolute";
     swipe.style.left = "0px";
@@ -493,7 +305,6 @@ function resizevideo(){
 
 window.addEventListener("resize", resizevideo);
 
-window.addEventListener('resize', resizevideo);
 
 
 
