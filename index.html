@@ -289,21 +289,29 @@ video.height = innerHeight - 4;
     swipe.style.height = innerHeight + "px";
 }
 
+
+    let oldOrientation = innerWidth > innerHeight;
+
 function resizevideo(){
 
-    const landscape = innerWidth > innerHeight;
+    const newOrientation = innerWidth > innerHeight;
 
-    localStorage.setItem(
-        "orientation",
-        landscape ? "landscape" : "portrait"
-    );
+    if(newOrientation !== oldOrientation){
 
-    window.location.reload();
+        oldOrientation = newOrientation;
+
+        localStorage.setItem(
+            "orientation",
+            newOrientation ? "landscape" : "portrait"
+        );
+
+        window.location.reload();
+    }
 }
 
-//resizevideo();
-
 window.addEventListener("resize", resizevideo);
+
+
 const landscape = innerWidth > innerHeight;
 
 if(landscape){
