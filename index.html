@@ -432,6 +432,63 @@ function resizevideo(){
     }
 }
 
+const orientation = localStorage.getItem("orientation");
+
+if(orientation === "landscape"){
+
+    container.style.position = "absolute";
+    container.style.left = "0px";
+    container.style.top = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.width = (innerWidth / 3.25 - 4) + "px";
+    video.style.height = (innerHeight - 4) + "px";
+    video.style.objectFit = "contain";
+
+    swipe.style.position = "absolute";
+    swipe.style.left = "0px";
+    swipe.style.top = "0px";
+    swipe.style.width = innerWidth + "px";
+    swipe.style.height = innerHeight + "px";
+
+}else{
+
+    container.style.position = "absolute";
+    container.style.left = "0px";
+    container.style.top = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.display = "grid";
+    container.style.placeItems = "center";
+
+    video.style.position = "relative";
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.objectFit = "contain";
+
+    swipe.style.position = "absolute";
+    swipe.style.left = "0px";
+    swipe.style.top = "0px";
+    swipe.style.width = innerWidth + "px";
+    swipe.style.height = innerHeight + "px";
+}
+
+function resizevideo(){
+
+    const landscape = innerWidth > innerHeight;
+
+    localStorage.setItem(
+        "orientation",
+        landscape ? "landscape" : "portrait"
+    );
+
+    window.location.reload();
+}
+
 resizevideo();
 
 window.addEventListener("resize", resizevideo);
