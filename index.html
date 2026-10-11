@@ -1,114 +1,62 @@
-<html lang="en">
-  <head>
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-<meta 
-name="viewport" 
-content="width=device-width,
-         initial-scale=1.0">
+<body style="margin:0;background:black">
 
-    <title></title>
-    
-   
-
-      <style>
-*{margin:0px;padding:0px;box-sizing:border-box;}
-body{
-  background-color: rgb(0,0,0);
-  color: lime;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-} 
-h2, h1 {
-  user-select: none;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-h2 { top: 0px; animation: colores 7s 1s linear infinite; }
-h1 { top: 50px; }
-
-@keyframes colores{
-  from{ filter: hue-rotate(0deg); }
-  to{ filter: hue-rotate(360deg); }
-}
-
-#container{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  border: 2px solid lime;
-}
-
-/* Forzamos que el video respete siempre las proporciones y quepa en pantalla */
-#container video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* Si estás en horizontal y quieres simular un contenedor tipo reel vertical centrado */
-@media screen and (orientation: landscape) {
-  #container video {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-  }
-}
-
-#swipe{
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  touch-action: none;
-  border: 2px solid blue;
-}
-</style>
-
+<video id="video"
+  src="https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
   
-  
-  </head>
-  
-  <body>
-    
-    <h2 hidden>html5</h2>
-    <h1 hidden>leonardosotelo89</h1>
-    
-<div id="div1"></div>
-<div id="div2"></div>
-<div id="div3"></div>
-
-<div id="container"></div>
-
-
-<div id="swipe"></div>
-
-
+  playsinline
+  style="width:100%;height:100vh;object-fit:contain">
+</video>
 <script>
+ const $ = (id)=>document.getElementById(id)
+ const video = $('video')
 
 
+//video.style.width = innerWidth - 4 +"px";
+//video.style.height = innerHeight - 4 +"px";
+//video.width = innerWidth 
+//video.height = innerHeight 
+//video.playsInline = true
+//video.objectFit = "fill" 
+//fill, cover, contain,scale-down ,none
+//video.controls = true
+//video.loop = true //onended issue 
+//video.preload = "auto" 
+//metadata,auto,none
+
+console.log(video); 
 
 
-const $ = (id)=>document.getElementById(id)
-const container = $('container')
-const swipe = document.querySelector('#swipe')
-
-const video = document.createElement('video')
-video.playsInline = true
-// Eliminamos las asignaciones manuales de video.width y video.height en JS 
-// para dejar el control total al CSS con object-fit: contain
-container.append(video)
+/*
+  <source id="fuente"
+    src="https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4" 
+          type="video/mp4"/>
+*/
 
 let initialy = null
-let directiony = null
+let directiony = "stay"
 let playing = false
-let videoindex = Number(localStorage.getItem("videoindex")) || 0;
-let current = null
+let videoindex = 0
+let current = 0
 
-const videosPrueba = [
+const githuburl = "https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+//one.src = githuburl
+
+
+
+
+
+
+const videos = [
+    {
+        nombre: "chunghwarcgua",
+        url:"https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+    },
     {
         nombre: "MDN Rabbit",
         url: "https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4"
@@ -124,90 +72,106 @@ const videosPrueba = [
     {
         nombre: "Sintel 720p",
         url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4"
-    },
-    {
-        nombre: "chunghwarcgua",
-        url: "https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
     }
 ];
 
-video.src = videosPrueba[videoindex].url
+ 
+
+
+function loadsrc(){
+  video.src = videos[videoindex].url;
+  video.load();
+}
+
+loadsrc()
+
+
+
 
 //pointer event
 //deactivate touch events to capture pointer events properly 
-swipe.style.touchAction = "none";
+document.body.style.touchAction = "none";
 
 
-swipe.onpointerdown = e => {
-  swipe.setPointerCapture(e.pointerId);
+document.body.onpointerdown = e => {
+  document.body.setPointerCapture(e.pointerId);
   initialy = e.clientY;
   playing = !playing 
+  directiony = "stay"
 }
 
-swipe.onpointermove = function (e){
+
+document.body.onpointermove = function (e){
   const currenty = e.clientY
-  if(initialy < currenty){ directiony = "down"; playing = true; }
-  if(initialy > currenty){ directiony = "up"; playing = true; }
+
+  if(initialy < currenty){
+    directiony = "down" 
+    playing = true 
+  }
+  if(initialy > currenty){
+    directiony = "up" 
+    playing = true 
+  }
 }
 
-swipe.onpointerup = e => {
-  swipe.releasePointerCapture(e.pointerId);
-  const vlength = videosPrueba.length
+
+document.body.onpointerup = e => {
+  document.body.releasePointerCapture(e.pointerId);
+  const vlength = videos.length
   
   if(directiony == "up"){
-    videoindex = (videoindex + 1) % vlength;
-    localStorage.setItem("videoindex", videoindex);
-    video.src = videosPrueba[videoindex].url;
-    current = 0
+  videoindex = (videoindex + 1) % vlength
+  current = 0
+  loadsrc()
   }
   if(directiony == "down"){
-    videoindex = (videoindex - 1 + vlength) % vlength;
-    localStorage.setItem("videoindex", videoindex);
-    video.src = videosPrueba[videoindex].url;
-    current = 0
+  videoindex = (videoindex - 1 + vlength) % vlength
+  current = 0
+  loadsrc()
   }
   directiony = "stay"
+  
   
   if(playing){
     video.currentTime = current
     video.play()
-  } else {
+  }
+  if(!playing){
     video.pause()
   }
 }
 
+/*
 video.onended = ()=>{
     video.currentTime = 0
-    video.play()
+    video..play()
 }
+*/
 
 video.ontimeupdate = ()=>{
   current = video.currentTime 
+ // console.log(current); 
+ if(video.currentTime >= 
+ video.duration ){
+ video.currentTime = 0
+ video.play()
+ }
 }
 
 setInterval(()=>{
-  swipe.innerHTML = directiony +"/"+playing+"/"+video.src 
-},50)
-
-// Usamos el evento resize nativo de forma limpia sin recargar la página bruscamente con location.reload()
-window.addEventListener("resize", () => {
-    // El CSS se encarga de reajustar automáticamente gracias a 100% y object-fit: contain
-});
-
-      
+/*
+ div1.innerHTML = videos[videoindex].nombre
+ div2.innerHTML = video.currentTime +
+  "/"+ video.duration */
+ 
+},500) 
 
 
+//ChatGPT 
+/*
+
+*/
   
-
-
-    
-        
-    
-    
-
-
-
 </script>
-<footer>            <!--              --></footer>
 </body>
-</html> 
+</html>
