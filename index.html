@@ -90,9 +90,6 @@ h1 { top: 50px; }
 <script>
 
 
-//pointer event
-//deactivate touch events to capture pointer events properly 
-swipe.style.touchAction = "none";
 
 
 const $ = (id)=>document.getElementById(id)
@@ -135,6 +132,11 @@ const videosPrueba = [
 ];
 
 video.src = videosPrueba[videoindex].url
+
+//pointer event
+//deactivate touch events to capture pointer events properly 
+swipe.style.touchAction = "none";
+
 
 swipe.onpointerdown = e => {
   swipe.setPointerCapture(e.pointerId);
