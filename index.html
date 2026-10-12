@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0;background:black">
+
+<video id="video"
+  src="https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+  
+  playsinline
+  style="width:100%;height:100vh;object-fit:contain">
+</video>
+<script>
+ const $ = (id)=>document.getElementById(id)
+ const video = $('video')
+
+
+//video.style.width = innerWidth - 4 +"px";
+//video.style.height = innerHeight - 4 +"px";
+//video.width = innerWidth 
+//video.height = innerHeight 
+//video.playsInline = true
+//video.objectFit = "fill" 
+//fill, cover, contain,scale-down ,none
+//video.controls = true
+//video.loop = true //onended issue 
+//video.preload = "auto" 
+//metadata,auto,none
+
+console.log(video); 
+
+
+/*
+  <source id="fuente"
+    src="https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4" 
+          type="video/mp4"/>
+*/
+
+let initialy = null
+let directiony = "stay"
+let playing = false
+let videoindex = 0
+let current = 0
+
+const githuburl = "https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+//one.src = githuburl
+
+
+
+
+
+
+const videos = [
+    {
+        nombre: "chunghwarcgua",
+        url:"https://leonardosotelo89.github.io/instarecipes/china/Wantan Casero Coma rico en Chung Hwa Rancagua.mp4"
+    },
+    {
+        nombre: "MDN Rabbit",
+        url: "https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4"
+    },
+    {
+        nombre: "W3Schools BBB",
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
+    },
+    {
+        nombre: "Big Buck Bunny 720p",
+        url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
+    },
+    {
+        nombre: "Sintel 720p",
+        url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4"
+    }
+];
+
+ 
+
+
+function loadsrc(){
+  video.src = videos[videoindex].url;
+  video.load();
+}
+
+loadsrc()
+
+
+
+
+//pointer event
+//deactivate touch events to capture pointer events properly 
+document.body.style.touchAction = "none";
+
+
+document.body.onpointerdown = e => {
+  document.body.setPointerCapture(e.pointerId);
+  initialy = e.clientY;
+  playing = !playing 
+  directiony = "stay"
+}
+
+
+document.body.onpointermove = function (e){
+  const currenty = e.clientY
+
+  if(initialy < currenty){
+    directiony = "down" 
+    playing = true 
+  }
+  if(initialy > currenty){
+    directiony = "up" 
+    playing = true 
+  }
+}
+
+
+document.body.onpointerup = e => {
+  document.body.releasePointerCapture(e.pointerId);
+  const vlength = videos.length
+  
+  if(directiony == "up"){
+  videoindex = (videoindex + 1) % vlength
+  current = 0
+  loadsrc()
+  }
+  if(directiony == "down"){
+  videoindex = (videoindex - 1 + vlength) % vlength
+  current = 0
+  loadsrc()
+  }
+  directiony = "stay"
+  
+  
+  if(playing){
+    video.currentTime = current
+    
+    video.oncanplay =()=>{
+    video.play()
+    }
+  }
+  if(!playing){
+    video.pause()
+  }
+}
+
+
+video.onended = ()=>{
+    video.currentTime = 0
+    video.play()
+}
+
+
+video.ontimeupdate = ()=>{
+  current = video.currentTime 
+ // console.log(current); 
+ /*
+ if(video.currentTime >= 
+ video.duration ){
+ video.currentTime = 0
+ video.play()
+ }
+ */
+}
+
+setInterval(()=>{
+/*
+ div1.innerHTML = videos[videoindex].nombre
+ div2.innerHTML = video.currentTime +
+  "/"+ video.duration */
+ 
+},500) 
+
+
+//ChatGPT 
+/*
+
+*/
+  
+</script>
+</body>
+</html>
