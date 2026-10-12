@@ -134,16 +134,17 @@ document.body.onpointerup = e => {
   
   if(playing){
     video.currentTime = current
-    
-    video.oncanplay =()=>{
-    video.play()
-    }
   }
+    
   if(!playing){
     video.pause()
   }
 }
 
+
+video.oncanplay = () => {
+  if (playing) video.play();
+};
 
 video.onended = ()=>{
     video.currentTime = 0
@@ -174,7 +175,21 @@ setInterval(()=>{
 
 //ChatGPT 
 /*
+video.oncanplay = () => {
+  if (playing) video.play();
+};
 
+if (playing) {
+  video.currentTime = current;
+
+  if (video.readyState >= 3) {
+    video.play();
+  }
+}
+
+if (!playing) {
+  video.pause();
+}
 */
   
 </script>
